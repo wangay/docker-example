@@ -30,3 +30,13 @@ CMD ["catalina.sh", "run"]
           二：Dockerfile中的ADD(拷贝)，第一个本机路径能否是任意路径？
                  不能，就应该把war copy到6这个当前工作目录。
           三：4中的最后一个点不要忘记，是根据当前路径构建新image（镜像）的上下文（context）
+          
+ +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+第二例：
+把自己的image push到dockerhub
+1:docker login
+
+2：docker tag tomcat1:1    86322989/tomcat1:v1  
+      把改名为自己dockerhub账户名字
+
+3：docker push 86322989/tomcat1:v1          
