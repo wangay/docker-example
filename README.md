@@ -44,3 +44,77 @@ CMD ["catalina.sh", "run"]
       把改名为自己dockerhub账户名字
 
 3：docker push 86322989/tomcat1:v1          
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+第三例：
+使用mysql:
+1:
+docker run --name first-mysql -p 3306:3306 -e MYSQL\_ROOT\_PASSWORD=123456 -d mysql
+(没有卷挂载，数据会在下一次启动时消失)
+2:使用本地安装的客户端工具访问
+比如MySQLWorkbench
+  你的应用程序就可以使用这个数据库开发了，还不用自己搭建，是不是很方便。
+
+
+指定挂载：(容器消失后，数据还在)
+
+docker run --name first-mysql -p 3306:3306 -e MYSQL\_ROOT\_PASSWORD=123456   -v ~/volume/mysql/data:/var/lib/mysql -d mysql
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+第四例子：
+
+用compose把web程序，以及数据库服务组合起来，成为一个完整的服务，实现一键启动
+
+
+利用上面第一个例子中，我们push到了dockerhub的一个image（我的一个web应用），然后利用官方的mysql镜像，组合成可以数据操作的web应用。
+
+第一步： 找个文件夹，命名test;
+第二步：新建个文件docker-compose.json
+第三步：编辑它：
+
+docker-compose.json例子：
+{
+    "version": "3",
+    "services": {
+        "web": {
+            "image": "86322989/tomcat-sb:1",
+            "ports": [
+                "8080:8080"
+            ],
+            "depends_on": [
+                "database"
+            ]
+        },
+        "database": {
+            "image": "mysql",
+            "ports": [
+                "3306:3306"
+            ],
+            "volumes": [
+                "~/volume/mysql/data:/var/lib/mysql"
+            ],
+            "environment": {
+                "MYSQL_DATABASE": "mysql",
+                "MYSQL_USER": "root",
+                "MYSQL_PASSWORD": "123456"
+            }
+        }
+    }
+}
+
+
+
+}：
+}
+
+第四步：终端运行这个编排  docker-compose -f docker-compose.json up
+
+第五步：等启动成功后，访问localhost:8080/sb/search。 成功完成。
+
+说明：docker-compose.yml是官方推荐的配置文件，我这用了json，而且运行时还要用-f特别指出这个文件。 
+     是因为yml格式严格，空格还难把握。
+
+
+
