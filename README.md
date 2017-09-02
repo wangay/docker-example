@@ -1,5 +1,5 @@
 # docker-example
-第一例：
+第一例：（推荐使用blam模式阅读，排版更好）
 tomcat放上war，作为一个image
 
 1：在某空文件夹6下：
@@ -106,8 +106,15 @@ docker run --name first-mysql -p 3306:3306 -e MYSQL\_ROOT\_PASSWORD=123456   -v 
 
 第五步：等启动成功后，访问localhost:8080/sb/search。 成功完成。
 
-说明：docker-compose.yml是官方推荐的配置文件，我这用了json，而且运行时还要用-f特别指出这个文件。 
+说明：1： docker-compose.yml是官方推荐的配置文件，我这用了json，而且运行时还要用-f特别指出这个文件。 
      是因为yml格式严格，空格还难把握。
+     
+     2：web怎么找到数据库的呢？我这里只做了一步，应用程序中定义数据库的时候，把ip地址改成了docker-compose.json里面的数据库service名字即 database：
+     
+     spring.datasource.url=jdbc:mysql://database:3306/url_db?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&transformedBitIsBoolean=true&autoReconnect=true&failOverReadOnly=false
+     
+     具体原因参考：
+     https://docs.docker.com/compose/networking/
 
 
 
