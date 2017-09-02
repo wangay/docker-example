@@ -73,8 +73,6 @@ docker run --name first-mysql -p 3306:3306 -e MYSQL\_ROOT\_PASSWORD=123456   -v 
 第一步： 找个文件夹，命名test;
 第二步：新建个文件docker-compose.json
 第三步：编辑它：
-
-docker-compose.json例子：
 {
     "version": "3",
     "services": {
@@ -102,11 +100,6 @@ docker-compose.json例子：
             }
         }
     }
-}
-
-
-
-}：
 }
 
 第四步：终端运行这个编排  docker-compose -f docker-compose.json up
